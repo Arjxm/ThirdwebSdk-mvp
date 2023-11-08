@@ -1,99 +1,164 @@
-import { ConnectWallet } from "@thirdweb-dev/react";
+import { ConnectWallet, ThirdwebSDK, useContract, useContractWrite, Web3Button } from "@thirdweb-dev/react";
 import "./styles/Home.css";
+import { ethers } from "ethers";
+
+// const signer = new ethers.Wallet("bce43927c26cbfc35015167902b422ad7f0160540b5587afca2f17fc596e1717");
+const contractAddress = "0x9Af9ADB92CF3e5a9Ff1b84b649e5870436367646";
+const abi = [
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "contract Fundraiser",
+        "name": "fundraiser",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
+    ],
+    "name": "FundraiserCreated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "url",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "imageURL",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "internalType": "address payable",
+        "name": "beneficiary",
+        "type": "address"
+      }
+    ],
+    "name": "createFundraiser",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "limit",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "offset",
+        "type": "uint256"
+      }
+    ],
+    "name": "fundraisers",
+    "outputs": [
+      {
+        "internalType": "contract Fundraiser[]",
+        "name": "coll",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "fundraisersCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
 
 export default function Home() {
+  // const { contract } = useContract(contractAddress, abi);
+  // const { mutateAsync, isLoading, error } = useContractWrite(
+  //   contract,
+  //   "createFundraiser",
+  // );
+
+  // const sdk = new ThirdwebSDK({
+  //   // === Required information for connecting to the network === \\
+  //   chainId: 10147, // Chain ID of the network
+  //   // Array of RPC URLs to use
+  //   rpc: ["https://rpc.dev.buildbear.io/quintessential-lobot-0cb74d7f"],
+
+  //   // === Information for adding the network to your wallet (how it will appear for first time users) === \\
+  //   // Information about the chain's native currency (i.e. the currency that is used to pay for gas)
+  //   nativeCurrency: {
+  //     decimals: 18,
+  //     name: "BB ETH",
+  //     symbol: "BB ETH",
+  //   },
+  //   shortName: "BB", // Display value shown in the wallet UI
+  //   slug: "BB", // Display value shown in the wallet UI
+  //   testnet: true, // Boolean indicating whether the chain is a testnet or mainnet
+  //   chain: "", // Name of the network
+  //   name: "BB", // Name of the network
+  // });
+
+
+  const { contract } = useContract("0x916a18780C0F4Ae8A834d53AEFE729B77528968D", abi);
+  const { mutateAsync, isLoading, error } = useContractWrite(
+    contract,
+    "createFundraiser",
+  );
+
   return (
     <main className="main">
-      <div className="container">
-        <div className="header">
-          <h1 className="title">
-            Welcome to{" "}
-            <span className="gradient-text-0">
-              <a
-                href="https://thirdweb.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                thirdweb.
-              </a>
-            </span>
-          </h1>
-
-          <p className="description">
-            Get started by configuring your desired network in{" "}
-            <code className="code">src/index.js</code>, then modify the{" "}
-            <code className="code">src/App.js</code> file!
-          </p>
-
-          <div className="connect">
-            <ConnectWallet
-              dropdownPosition={{
-                side: "bottom",
-                align: "center",
-              }}
-            />
-          </div>
-        </div>
-
-        <div className="grid">
-          <a
-            href="https://portal.thirdweb.com/"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/portal-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-1">Portal ➜</h2>
-              <p>
-                Guides, references, and resources that will help you build with
-                thirdweb.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="https://thirdweb.com/dashboard"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/dashboard-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-2">Dashboard ➜</h2>
-              <p>
-                Deploy, configure, and manage your smart contracts from the
-                dashboard.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="https://thirdweb.com/templates"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/templates-preview.png"
-              alt="Placeholder preview of templates"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-3">Templates ➜</h2>
-              <p>
-                Discover and clone template projects showcasing thirdweb
-                features.
-              </p>
-            </div>
-          </a>
-        </div>
+      <div className="connect">
+        <ConnectWallet
+          dropdownPosition={{
+            side: "bottom",
+            align: "center",
+          }}
+        />
       </div>
+      <div>
+        {/* <button onClick={co}>
+         createFundraiser
+        </button> */}
+
+        <Web3Button
+          contractAddress="0x916a18780C0F4Ae8A834d53AEFE729B77528968D"
+          contractAbi={abi}
+          action={() => mutateAsync({ args: ["My Name", "My Name", "My Name", "My Name", "0xE314390E2355CD136b953a1d20041403c339d5bb"]})}
+        >
+          Execute Action
+        </Web3Button>
+        <h1>
+          <a href="https://explorer.dev.buildbear.io/quintessential-lobot-0cb74d7f/transactions">explorer</a>
+        </h1>
+        
+      </div>
+
+
     </main>
   );
 }
