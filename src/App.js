@@ -1,6 +1,8 @@
 import { ConnectWallet, ThirdwebSDK, useContract, useContractWrite, Web3Button } from "@thirdweb-dev/react";
 import "./styles/Home.css";
 import { ethers } from "ethers";
+import { useState } from "react";
+import axios from "axios";
 
 // const signer = new ethers.Wallet("bce43927c26cbfc35015167902b422ad7f0160540b5587afca2f17fc596e1717");
 const contractAddress = "0x9Af9ADB92CF3e5a9Ff1b84b649e5870436367646";
@@ -123,6 +125,7 @@ export default function Home() {
   //   name: "BB", // Name of the network
   // });
 
+  const [address, setAddress] = useState("");
 
   const { contract } = useContract("0x916a18780C0F4Ae8A834d53AEFE729B77528968D", abi);
   const { mutateAsync, isLoading, error } = useContractWrite(
@@ -130,6 +133,25 @@ export default function Home() {
     "createFundraiser",
   );
 
+  
+
+const mintToken = async (address) => {
+  console.log(address)
+  try {
+    await axios.post('https://backend.dev.buildbear.io/node/faucet/native/quintessential-lobot-0cb74d7f',
+        {
+          "address": address,
+          "balance": "100"
+        })
+  } catch (error) {
+    console.error('Error in mintToken:', error);
+  }
+}
+
+
+  const handleInputChange = (e) => {
+    setAddress(e.target.value);
+  };
   return (
     <main className="main">
       <div className="connect">
@@ -157,6 +179,17 @@ export default function Home() {
         </h1>
         
       </div>
+
+      <div>
+        <label>Enter your connected wallet address</label>
+        <input
+        type="text"
+        value={address}
+        onChange={handleInputChange}
+      />
+      </div>
+
+      <button onClick={() => mintToken(address)}>Mint</button>
 
 
     </main>
