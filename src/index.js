@@ -29,11 +29,11 @@ root.render(
           name: "BB ETH",
           symbol: "BB ETH",
         },
-        shortName: "BB", // Display value shown in the wallet UI
-        slug: "BB", // Display value shown in the wallet UI
+        shortName: "BB Premium", // Display value shown in the wallet UI
+        slug: "BB Premium", // Display value shown in the wallet UI
         testnet: true, // Boolean indicating whether the chain is a testnet or mainnet
         chain: "", // Name of the network
-        name: "BB", // Name of the network
+        name: "BB Premium", // Name of the network
       }}
       clientId={"fa4fad8d511d30d6089e02a370ca1a32"}
     >
