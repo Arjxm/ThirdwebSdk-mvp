@@ -18,9 +18,9 @@ root.render(
     <ThirdwebProvider
       activeChain={{
         // === Required information for connecting to the network === \\
-        chainId: 10147, // Chain ID of the network
+        chainId: 1, // Chain ID of the network
         // Array of RPC URLs to use
-        rpc: ["https://rpc.dev.buildbear.io/quintessential-lobot-0cb74d7f"],
+        rpc: ["https://rpc.dev.buildbear.io/arjun"],
 
         // === Information for adding the network to your wallet (how it will appear for first time users) === \\
         // Information about the chain's native currency (i.e. the currency that is used to pay for gas)
